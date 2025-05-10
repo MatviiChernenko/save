@@ -19,26 +19,17 @@ class Hero (Human):
     def __init__(self,x,y,width,height,image_list,step,hp):
         super().__init__(x,y,width,height,image_list,step)
         self.walk = {"left":False,"right":False,"up":False,"down":False}
+        self.start_time = 0
 
     def move(self,window):
-        if self.walk["up"] and self.y > 0:
-            self.y -= self.step
-            if self.collidelist(wall_list) != -1:
-                self.y+=self.step
         if self.walk["left"] and self.x > 0:
             self.x -= self.step
-            if self.collidelist(wall_list) != -1:
-                self.x+=self.step
-            self.side = True
-        if self.walk["down"] and self.y < size_window[1]:
-            self.y += self.step
-            if self.collidelist(wall_list) != -1:
-                self.y-=self.step
         if self.walk["right"] and self.x < size_window[0]:
             self.x += self.step
-            if self.collidelist(wall_list) != -1:
-                self.x-=self.step
-            self.side = False
+        if self.walk["up"] and self.y > 0:
+            self.y -= self.step
+        if self.walk["down"] and self.y < size_window[0]:
+            self.y += self.step
         window.blit(self.image,(self.x,self.y))
 
 class Tower (pygame.Rect):
@@ -49,3 +40,29 @@ class Tower (pygame.Rect):
 
     def blit(self,window):
         window.blit(self.image,(self.x,self.y))
+
+class Atack (pygame.Rect):
+    def __init__(self,x,y,width,height,image):
+        super().__init__(x,y,width,height)
+        self.image = image
+        self.image_count = 0
+
+    def blit(self,window):
+        window.blit(self.image,(self.x,self.y))
+
+class Bot(Human):
+    def __init__(self,x,y,width,height,image_list,step):
+        super().__init__(x,y,width,height,image_list,step)
+        self.start_x = x
+        self.start_y = y
+        self.start_time = 0
+        self.random_time = randint(1500,2000)
+
+    def move(self,window): 
+        self.x += self.step
+        window.blit(self.image, (self.x, self.y)) 
+
+    def shoot(self, time_bot):
+        if time_bot - self.start_time > self.random_time:
+            self.start_time = time_bot
+            self.random_time = randint(1500,2500)
