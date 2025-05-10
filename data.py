@@ -15,7 +15,7 @@ FPS = 60
 BLACK = (5,5,5)
 YELLOW = (300,300)
 bot_list = list()
-bullet_list = list()
+atack_list = list()
 
 
 
@@ -31,7 +31,7 @@ bot_image_list =[
 background_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "background.png")), size_background)
 
 tower_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "tower.png")), size_tower)
-menu_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "menu.png")), size_menu)
-play_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "button_play.png")), size_button)
-exit_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "button_exit.png")), size_button)
+menu_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "test.png")), size_menu)
+play_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "test.png")), size_button)
+exit_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "test.png")), size_button)
 atack_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "test.png")), size_hero)

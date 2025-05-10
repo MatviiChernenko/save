@@ -47,6 +47,8 @@ while game:
                 if button_exit.collidepoint(x,y):           
                     game = False
 
+
+
     if wich_window == 1:
 
         size_window = (500,200)
@@ -56,23 +58,25 @@ while game:
         tower.blit(window)
         hero.move(window)
 
-        for bullet in bullet_list:
-            window.blit(bullet.image,(bullet.x,bullet.y))
+        for atack in atack_list:
+            window.blit(atack.image,(atack.x,atack.y))
             time_atack = pygame.time.get_ticks()
             if time_atack - hero.start_time > 1000:
                 hero.start_time = time_atack
-                bullet_list.remove(bullet)
+                atack_list.remove(atack)
 
         for bot in bot_list:
             bot.move(window)
 
 
+        
+
         end_time_bot = pygame.time.get_ticks()
         if end_time_bot - start_time_bot > 2000:
             start_time_bot = end_time_bot
             bot_list.append(Bot(
-                0,
-                randint(110,215),
+                300,
+                randint(145,200),
                 size_bot[0],
                 size_bot[1],
                 bot_image_list,
@@ -93,8 +97,9 @@ while game:
                     hero.walk["left"] = True
                 if event.key == pygame.K_d:
                     hero.walk["right"] = True
-                if event.key == pygame.K_SPACE:
-                    bullet_list.append(Atack(hero.centerx +5, hero.y, 10, 20, atack_image))
+                if event.key == pygame.K_SPACE and hero.can_shoot:
+                    atack_list.append(Atack(hero.centerx +5, hero.y, 10, 20, atack_image))
+                    hero.can_shoot = False
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:
                     hero.walk["up"] = False
