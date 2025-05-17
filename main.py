@@ -24,13 +24,7 @@ tower = Tower(
     tower_image
 )
 
-ugh = Ugh(
-    -190,
-    -210,
-    size_ugh[0],
-    size_ugh[1],
-    test_image
-)
+
 
 def fade_out(window, step=10):
     fade = pygame.Surface(size_window)
@@ -104,7 +98,7 @@ while game:
         tower.blit(surface_background,camera_x,camera_y)
         #ugh.blit(surface_background,camera_x,camera_y)
         hero.move(surface_background,camera_x,camera_y)
-        render_text_hp = font.render(f"x{hero.hp}", True,RED)
+
 
         for kind,x,y in decorations:
             img = tree_image
@@ -129,15 +123,15 @@ while game:
             bot.move(surface_background,camera_x,camera_y)
             if hero.colliderect(bot) and current_time - hero.last_hit_time > 1000:
                 hero.last_hit_time = current_time
-                hero.hp -= 1
+                hero.hp_hero -= 1
                 bot_list.remove(bot)
-                if hero.hp < 0:
-                    hero.hp = 0
-                if tower.colliderect(bot):
-                    tower.hp -= 1
-                    bot_list.remove(bot)
-                    if tower.hp < 0:
-                        tower.hp = 0
+                if hero.hp_hero < 0:
+                    hero.hp_hero = 0
+            if tower.colliderect(bot):
+                hero.hp_tower -= 1
+                bot_list.remove(bot)
+                if hero.hp_tower < 0:
+                    hero.hp_tower = 0
 
         bullet_list = list()
         for atack in atack_list:
@@ -189,10 +183,10 @@ while game:
                         hero.start_time = now
                         hero.can_shoot = False
                         #atack_list.append(Atack(hero.centerx +5, hero.y, 10, 20, atack_image))
-                        if hero.stay and hero.direction == "right":
-                            atack_list.append(Atack(hero.centerx +5, hero.y, 10, 20, atack_image))
-                        if hero.stay and hero.direction == "left":
-                            atack_list.append(Atack(hero.centerx -15, hero.y, 10, 20, atack_image))
+                        if hero.direction == "right":
+                            atack_list.append(Atack(hero.centerx +5, hero.y, 10, 20, atack_image,"right"))
+                        if hero.direction == "left":
+                            atack_list.append(Atack(hero.centerx -15, hero.y, 10, 20, atack_image,"left"))
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:
                     hero.walk["up"] = False
@@ -208,12 +202,12 @@ while game:
         scaled = pygame.transform.scale(surface_background, size_window)
         window.blit(scaled, (0, 0))
 
-        if hero.hp <= 0 or tower.hp <= 0:
-            sleep(1)
+        if hero.hp_hero <= 0 or hero.hp_tower <= 0:
             text = font.render("Game Over", True, (255, 0, 0))
+            sleep(1)
             pygame.time.delay(1000)  
             wich_window = 0          
-            hero.hp = 5    
+            hero.hp_hero = 5    
             hero.x = 238             
             hero.y = 184
             bot_list.clear()

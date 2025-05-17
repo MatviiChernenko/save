@@ -14,7 +14,8 @@ size_button = (80,50)
 size_tower = (29,60)
 size_bot = (10,10)
 size_tree = (15,24)
-size_ugh = (1000,700)
+size_hp = (11,11)
+
 FPS = 60
 BLACK = (5,5,5)
 YELLOW = (300,300)
@@ -28,7 +29,9 @@ decorations = []
 
 abs_path=os.path.abspath(__file__ + "/..") 
 hero_image_list_right =[
-    pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "hero1.png")), size_hero)
+    pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "hero1.png")), size_hero),
+    pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "slime1.png")), size_hero),
+    pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "slime2.png")), size_hero)
 ]
 
 hero_image_list_left =[
@@ -47,10 +50,10 @@ bot_image_list =[
 
 background_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "background.png")), size_background)
 
-test_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "ugh.png")), size_ugh)
 tower_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "tower.png")), size_tower)
 tree_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "tree.png")), size_tree)
 menu_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "menu.png")), size_menu)
 play_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "button_play.png")), size_button)
 exit_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "button_exit.png")), size_button)
-atack_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "test.png")), size_hero)
+atack_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "atack.png")), size_hero)
+hp_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "hp.png")), size_hp)
