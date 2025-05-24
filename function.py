@@ -24,6 +24,7 @@ class Hero(Human):
         self.shoot_limit = shoot_limit
         self.hp_hero = 5
         self.hp_tower = 10
+        self.kill_bots = 0
         self.start_time = pygame.time.get_ticks()
         self.walk = {"up": False, "down": False, "left": False, "right": False}
         self.direction = "right"
@@ -49,6 +50,8 @@ class Hero(Human):
 
         if self.direction == "left":
             self.image_now = pygame.transform.flip(self.image, True, False)
+        else:
+            self.image_now = self.image
 
         self.move_image()
         surface.blit(self.image_now, (self.x - camera_x, self.y - camera_y))
@@ -63,10 +66,10 @@ class Hero(Human):
         hp_text = font_hp.render(f"x{self.hp_tower}", True,RED)
         surface.blit(hp_text,(self.x - 139 - camera_x + 20,self.y - 105 - camera_y))
 
-        surface.blit(sk_image,(self.x - 140 - camera_x,self.y - 90 - camera_y))
+        surface.blit(sk_image,(self.x + 115 - camera_x,self.y - 120 - camera_y))
         font_hp = pygame.font.Font(None,24)
-        hp_text = font_hp.render(f"x{self.hp_tower}", True,RED)
-        surface.blit(hp_text,(self.x - 139 - camera_x + 20,self.y - 85 - camera_y))
+        hp_text = font_hp.render(f"x{self.kill_bots}", True,RED)
+        surface.blit(hp_text,(self.x + 110 - camera_x + 20,self.y - 120 - camera_y))
 
 class Tower(pygame.Rect):
     def __init__(self, x, y, width, height, image):
@@ -106,8 +109,8 @@ class Bot(Human):
         if direction == "left":
             self.image = pygame.transform.flip(self.image_list[0], True, False)
         else:
-            self.image = self.image_list[0]
-
+            #self.image = self.image_list[0]
+            self.image_now = self.image
     def move(self, surface, camera_x, camera_y):
         if self.direction == "left":
             self.fx -= self.step
@@ -116,5 +119,3 @@ class Bot(Human):
         self.move_image()
         self.x = int(self.fx)
         surface.blit(self.image, (self.x - camera_x, self.y - camera_y))
-
-
