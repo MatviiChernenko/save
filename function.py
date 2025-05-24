@@ -55,13 +55,18 @@ class Hero(Human):
 
         surface.blit(hp_image,(self.x - 130 - camera_x,self.y - 115 - camera_y))
         font_hp = pygame.font.Font(None,24)
-        hp_text = render_text_hp = font_hp.render(f"x{self.hp_hero}", True,RED)
+        hp_text = font_hp.render(f"x{self.hp_hero}", True,RED)
         surface.blit(hp_text,(self.x - 139 - camera_x + 20,self.y - 120 - camera_y))
 
         surface.blit(hp_image,(self.x - 130 - camera_x,self.y - 100 - camera_y))
         font_hp = pygame.font.Font(None,24)
-        hp_text = render_text_hp = font_hp.render(f"x{self.hp_tower}", True,RED)
+        hp_text = font_hp.render(f"x{self.hp_tower}", True,RED)
         surface.blit(hp_text,(self.x - 139 - camera_x + 20,self.y - 105 - camera_y))
+
+        surface.blit(sk_image,(self.x - 140 - camera_x,self.y - 90 - camera_y))
+        font_hp = pygame.font.Font(None,24)
+        hp_text = font_hp.render(f"x{self.hp_tower}", True,RED)
+        surface.blit(hp_text,(self.x - 139 - camera_x + 20,self.y - 85 - camera_y))
 
 class Tower(pygame.Rect):
     def __init__(self, x, y, width, height, image):
@@ -89,16 +94,14 @@ class Atack(pygame.Rect):
             surface.blit(self.image, (self.x - camera_x, self.y - camera_y))
 
 
-class Bot(pygame.Rect):
+class Bot(Human):
     def __init__(self, x, y, width, height, image_list, step, direction):
-        super().__init__(x, y, width, height)
+        super().__init__(x, y, width, height,image_list,step)
         self.fx = float(x)
         self.start_y = y
         self.start_time = 0
         self.random_time = randint(1500, 2000)
         self.direction = direction
-        self.step = step
-        self.image_list = image_list
 
         if direction == "left":
             self.image = pygame.transform.flip(self.image_list[0], True, False)
@@ -110,5 +113,8 @@ class Bot(pygame.Rect):
             self.fx -= self.step
         else:
             self.fx += self.step
+        self.move_image()
         self.x = int(self.fx)
         surface.blit(self.image, (self.x - camera_x, self.y - camera_y))
+
+
