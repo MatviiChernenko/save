@@ -50,7 +50,7 @@ bot_image_list =[
 ]
 
 background_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "background.png")).convert(), size_background)
-background_image2 = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "background2.png")).convert(), size_background)
+
 
 tower_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "tower.png")).convert_alpha(), size_tower)
 tree_image = pygame.transform.scale(pygame.image.load(os.path.join(abs_path, "image", "tree.png")).convert_alpha(), size_tree)

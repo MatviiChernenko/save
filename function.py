@@ -24,6 +24,8 @@ class Hero(Human):
         self.shoot_limit = shoot_limit
         self.hp_hero = 5
         self.hp_tower = 10
+        self.hp_bot = 1
+        self.step_bot = 0.3
         self.kill_bots = 0
         self.start_time = pygame.time.get_ticks()
         self.walk = {"up": False, "down": False, "left": False, "right": False}
@@ -55,19 +57,17 @@ class Hero(Human):
 
         self.move_image()
         surface.blit(self.image_now, (self.x - camera_x, self.y - camera_y))
+        font_hp = pygame.font.Font(None,24)
 
         surface.blit(hp_image,(self.x - 130 - camera_x,self.y - 115 - camera_y))
-        font_hp = pygame.font.Font(None,24)
         hp_text = font_hp.render(f"x{self.hp_hero}", True,RED)
         surface.blit(hp_text,(self.x - 139 - camera_x + 20,self.y - 120 - camera_y))
 
         surface.blit(hp_image,(self.x - 130 - camera_x,self.y - 100 - camera_y))
-        font_hp = pygame.font.Font(None,24)
         hp_text = font_hp.render(f"x{self.hp_tower}", True,RED)
         surface.blit(hp_text,(self.x - 139 - camera_x + 20,self.y - 105 - camera_y))
 
         surface.blit(sk_image,(self.x + 115 - camera_x,self.y - 120 - camera_y))
-        font_hp = pygame.font.Font(None,24)
         hp_text = font_hp.render(f"x{self.kill_bots}", True,RED)
         surface.blit(hp_text,(self.x + 110 - camera_x + 20,self.y - 120 - camera_y))
 
@@ -98,7 +98,7 @@ class Atack(pygame.Rect):
 
 
 class Bot(Human):
-    def __init__(self, x, y, width, height, image_list, step, direction):
+    def __init__(self, x, y, width, height, image_list, step, direction,hp):
         super().__init__(x, y, width, height,image_list,step)
         self.fx = float(x)
         self.start_y = y
@@ -119,3 +119,5 @@ class Bot(Human):
         self.move_image()
         self.x = int(self.fx)
         surface.blit(self.image, (self.x - camera_x, self.y - camera_y))
+
+
