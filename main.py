@@ -26,15 +26,25 @@ tower = Tower(
 
 
 
-def fade_out(window, step=10):
+def fade_out_menu(window, step=10):
     fade = pygame.Surface(size_window)
     fade.fill((0, 0, 0))
     for alpha in range(0, 255, step):
         fade.set_alpha(alpha)
-        window.blit(menu_image, (0, 0))  # фон меню
+        window.blit(menu_image, (0, 0))
         window.blit(play_image, (225, 150))
         window.blit(exit_image, (225, 235))
         window.blit(fade, (0, 0))
+        pygame.display.update()
+        pygame.time.delay(20)
+
+def fade_out_level(window, step=10):
+    fade = pygame.Surface(size_window)
+    fade.fill((0, 0, 0))
+    for alpha in range(0, 255, step):
+        fade.set_alpha(alpha)
+        tower.blit(surface_background,camera_x,camera_y)
+        hero.move(surface_background,camera_x,camera_y)
         pygame.display.update()
         pygame.time.delay(20)
         
@@ -57,7 +67,6 @@ start_time_bot = 0
 end_time_bot = 0
 camera_x = 0
 camera_y = 0
-level = 1
 count = 10
 spawn_left = True
 while game:
@@ -73,7 +82,7 @@ while game:
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 x , y = event.pos
                 if button_play.collidepoint(x,y):
-                    fade_out(window)
+                    fade_out_menu(window)
                     wich_window = 1 
                     pygame.event.clear()                     
                 if button_exit.collidepoint(x,y):           
@@ -172,14 +181,14 @@ while game:
 
         if hero.kill_bots == count:
             #window.blit(font.render("You Win",True,(222,222,55)),(WIDTH // 2 - 80,HEIGHT // 2))
-            level += 1
+            hero.level += 1
             #window.blit(font.render("Level:" + str(level),True,(0,0,0)),(495,400))
             pygame.display.flip()
-            sleep(5)
+            sleep(2)
+            wich_window = 3
             hero.kill_bots -= hero.kill_bots
             count += 10
             hero.step_bot += 0.2 
-            hero.hp_bot += 1
             hero.hp_hero += 1
             hero.hp_tower += 1
             if hero.hp_hero == 6:
@@ -192,7 +201,8 @@ while game:
             for atack in atack_list:
                 atack_list.remove(atack)  
                 break 
-            
+
+        
 
 
         for event in events:
@@ -217,6 +227,8 @@ while game:
                             atack_list.append(Atack(hero.centerx +5, hero.y, 10, 20, atack_image,"right"))
                         if hero.direction == "left":
                             atack_list.append(Atack(hero.centerx -15, hero.y, 10, 20, atack_image,"left"))
+                if event.key == pygame.K_ESCAPE:
+                   wich_window = 0
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w:
                     hero.walk["up"] = False
@@ -242,6 +254,24 @@ while game:
             hero.y = 184
             bot_list.clear()
             atack_list.clear()
+        
+    if wich_window == 3:
+        window.blit(menu_image,(0,0)) 
+        button_buy = window.blit(buy_image,(225,150))
+        #button_exit = window.blit(exit_image,(225,235))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game = False 
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                x , y = event.pos
+            if button_buy.collidepoint(x,y):
+                button_exit = window.blit(exit_image,(225,235))
+                #if button_exit.collidepoint(x,y):           
+                #    game = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                   wich_window = 1
+                   pygame.event.clear()
 
             
     clock.tick(FPS)
