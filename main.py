@@ -69,6 +69,7 @@ camera_x = 0
 camera_y = 0
 count = 10
 spawn_left = True
+show_shield_image = False
 while game:
 
     if wich_window == 0:
@@ -150,6 +151,7 @@ while game:
             for bot in bot_list:
                 if atack.colliderect(bot):
                     hero.hp_bot -= 1
+                    hero.coin += randint(1,hero.level)
                     if hero.hp_bot < 0:
                         atack_list.append(atack)
                         bot_list.remove(bot)
@@ -187,20 +189,19 @@ while game:
             sleep(2)
             wich_window = 3
             hero.kill_bots -= hero.kill_bots
-            count += 10
+            count += 5
             hero.step_bot += 0.2 
             hero.hp_hero += 1
             hero.hp_tower += 1
+            hero.x = 238             
+            hero.y = 184
+            bot_list.clear()
+            atack_list.clear()
             if hero.hp_hero == 6:
                 hero.hp_hero -= 1
             if hero.hp_tower == 11:
                 hero.hp_tower -= 1
-            for bot in bot_list:
-                bot_list.remove(bot)
-                break
-            for atack in atack_list:
-                atack_list.remove(atack)  
-                break 
+            
 
         
 
@@ -255,23 +256,32 @@ while game:
             bot_list.clear()
             atack_list.clear()
         
+
     if wich_window == 3:
-        window.blit(menu_image,(0,0)) 
-        button_buy = window.blit(buy_image,(225,150))
-        #button_exit = window.blit(exit_image,(225,235))
+        window.blit(menu_image, (0, 0)) 
+        button_buy = window.blit(buy_image, (225,150))
+
+        if show_shield_image:
+            button_shield = window.blit(sh_image, (230,235))
+            window.blit(font.render("10",True,YELLOW),(260,235))
+            
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 game = False 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                x , y = event.pos
-            if button_buy.collidepoint(x,y):
-                button_exit = window.blit(exit_image,(225,235))
-                #if button_exit.collidepoint(x,y):           
-                #    game = False
+                x, y = event.pos
+                if button_buy.collidepoint(x, y):
+                    show_shield_image = True
+                elif show_shield_image:
+                    if button_shield.collidepoint(x, y ) and hero.coin >= 10:
+                        hero.hp_tower += 5
+                        hero.coin -= 10
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                   wich_window = 1
-                   pygame.event.clear()
+                    wich_window = 1
+                    show_shield_image = False
+                    pygame.event.clear()
 
             
     clock.tick(FPS)

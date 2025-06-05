@@ -28,6 +28,7 @@ class Hero(Human):
         self.step_bot = 0.3
         self.kill_bots = 0
         self.level = 1
+        self.coin = 0
         self.start_time = pygame.time.get_ticks()
         self.walk = {"up": False, "down": False, "left": False, "right": False}
         self.direction = "right"
@@ -72,6 +73,10 @@ class Hero(Human):
         kill_text = font_hp.render(f"x{self.kill_bots}", True,RED)
         surface.blit(kill_text,(self.x + 110 - camera_x + 20,self.y - 120 - camera_y))
 
+        surface.blit(coin_image,(self.x - 130 - camera_x,self.y - 83 - camera_y))
+        coin_text = font_hp.render(f"x{self.coin}", True,YELLOW)
+        surface.blit(coin_text,(self.x - 135 - camera_x + 20,self.y - 85 - camera_y))
+
         level = font_hp.render(f"{self.level}", True,BLUE)
         surface.blit(level,(self.x + 115 - camera_x,self.y - 105 - camera_y))
         level_text = font_hp.render(f"level", True,BLUE)
@@ -112,16 +117,18 @@ class Bot(Human):
         self.random_time = randint(1500, 2000)
         self.direction = direction
 
-        if direction == "left":
-            self.image = pygame.transform.flip(self.image_list[0], True, False)
-        else:
-            #self.image = self.image_list[0]
-            self.image_now = self.image
+
     def move(self, surface, camera_x, camera_y):
         if self.direction == "left":
             self.fx -= self.step
         else:
             self.fx += self.step
         self.move_image()
+        if self.direction == "left":
+            self.image_now = pygame.transform.flip(self.image, True, False)
+        else:
+            #self.image = self.image_list[0]
+            self.image_now = self.image
         self.x = int(self.fx)
-        surface.blit(self.image, (self.x - camera_x, self.y - camera_y))
+        surface.blit(self.image_now, (self.x - camera_x, self.y - camera_y))
+
